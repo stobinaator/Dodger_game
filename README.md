@@ -13,6 +13,9 @@ BAD GUYS
 ![](players/bad/radichat.png) ![](players/bad/danko.png) ![](players/bad/regi.png) ![](players/bad/bocko.png)![](players/bad/anne.png) 
 ![](players/bad/ceci.png) ![](players/bad/lazo.png) ![](players/bad/aleko.png)
 
+POWER UPS
+>![](players/powerups/flash.png) ![](players/powerups/red.png)
+
 
 ## Installation
 
@@ -32,10 +35,3 @@ pip install pygame
 >You can go through the left wall and appear on the right, and vice-versa. </br>
 >There are 2 cheats, 'X' - slows enemies, 'Y' - moves enemies backwards. It costs you score tho. </br>
 >If you are with a normal and not german-layout keyboard, change the 'Y' button to 'Z' in the code in order to be easier to play. </br>
-
-
-
-## IF
-
->there is lag when you start the game, increase the **FPS** constant to 60 (now 40) or even more. </br>
->the player is slow, increase the **PLAYERMOVERATE** constant (now 5). </br>

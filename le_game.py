@@ -7,11 +7,14 @@ WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 600
 TEXTCOLOR = (0, 0, 0)
 BACKGROUNDCOLOR = (255, 255, 255)
-FPS = 40
+FPS = 60
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
 BADDIEMAXSPEED = 8
+POWERUPSIZE = 20
+SPEEDSIZE = 20
+
 
 baddieRates = {'one' : {'ADDNEWBADDIERATE1':15,'ADDNEWGOODIERATE1':24}, # until 500
                'two' : {'ADDNEWBADDIERATE2':13,'ADDNEWGOODIERATE2':26}, # above 500
@@ -55,6 +58,8 @@ for dirpath, dirnames, files in os.walk(os.path.abspath(PLAYERS_DIR)):
 playerImage = pygame.image.load(PLAYERS_DIR +'player.png')
 playerRect = playerImage.get_rect()
 
+powerUpImage = pygame.image.load(PLAYERS_DIR + 'powerups/' + 'red.png')
+speedUpImage = pygame.image.load(PLAYERS_DIR + 'powerups/' + 'flash.png')
 
 def terminate():
     pygame.quit()
@@ -70,6 +75,31 @@ def waitForPlayerToPressKey():
                 if event.key == K_ESCAPE:
                     main_menu()
                 return
+
+
+def waitForPlayerToPressKey2():
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                terminate()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    terminate()
+                return
+
+def playerHasHitSpeedUp(playerRect, speedUp):
+    for s in speedUp[:]:
+        if playerRect.colliderect(s['rect']):
+            speedUp.remove(s)
+            return True
+    return False
+
+def playerHasHitPowerUp(playerRect, powerUp):
+    for p in powerUp[:]:
+        if playerRect.colliderect(p['rect']):
+            powerUp.remove(p)
+            return True
+    return False
 
 
 def playerHasHitBaddie(playerRect, baddies):
@@ -112,6 +142,22 @@ def delFigurePastBottom(whoever):
         if w['rect'].top > WINDOW_HEIGHT:
             whoever.remove(w)
 
+def addNewSpeedUp(image):
+    speedSize = SPEEDSIZE
+    newFigure = {'rect' : pygame.Rect(random.randint(0, WINDOW_WIDTH - speedSize), 
+                                      random.randint(0, WINDOW_HEIGHT - speedSize), speedSize, speedSize),
+                'surface' : pygame.transform.scale(image, (speedSize, speedSize)),
+                 }
+    return newFigure
+
+def addNewPowerUp(image):
+    powerupSize = POWERUPSIZE
+    newFigure = {'rect' : pygame.Rect(random.randint(0, WINDOW_WIDTH - powerupSize), 
+                                      random.randint(0, WINDOW_HEIGHT - powerupSize), powerupSize, powerupSize),
+                'surface' : pygame.transform.scale(image, (powerupSize, powerupSize)),
+                 }
+    return newFigure
+
 
 def addNewFigure(image):   
     baddieSize = random.randint(BADDIEMINSIZE, BADDIEMAXSIZE)
@@ -125,7 +171,7 @@ def addNewFigure(image):
     return newFigure
 
 
-def movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect):
+def movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect, PLAYERMOVERATE):
     # move the player around
     if moveLeft: 
             playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
@@ -150,7 +196,7 @@ def main_menu():
     drawText('Dodger', font, windowSurface, (WINDOW_WIDTH/3) + 30, (WINDOW_HEIGHT/3))
 
     pygame.display.update()
-    waitForPlayerToPressKey()
+    waitForPlayerToPressKey2()
     main_menu2()
 
 
@@ -287,6 +333,19 @@ def addNewBaddiesAndCheckScore(baddieAddCounter, goodieAddCounter, score, baddie
 
     return goodies, baddies, score, goodieAddCounter, baddieAddCounter
 
+def addNewSpeedUpToList(iteration, speedups, speedUpImage):
+    if iteration % 600 == 0:
+        newSpeedUp = addNewPowerUp(speedUpImage)
+        speedups.append(newSpeedUp)
+    return speedups
+
+def addNewPowerUpToList(iteration, powerups, powerupImage):
+    if iteration % 300 == 0:
+        newPowerUp = addNewPowerUp(powerUpImage)
+        powerups.append(newPowerUp)
+
+    return powerups
+
 
 def game_over(score):
     pygame.mixer.music.stop()
@@ -304,14 +363,17 @@ def game_over(score):
     gameOverSound.stop()
 
 
-def game():
+def game(PLAYERMOVERATE):
     lastScore = 0.0
     topScore = 0.0
     while True:
         # set up the start of the game
         baddies = []
         goodies = []
+        powerups = []
+        speedups = []
         score = 0.0
+        iteration = 0
 
         playerRect.topleft = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 50)
         moveLeft = moveRight = moveUp = moveDown = False
@@ -319,8 +381,8 @@ def game():
         musicPlaying = False
 
         baddieAddCounter = 0
-        goodieAddCounter = 0
-        
+        goodieAddCounter = 0 
+        PLAYERMOVERATE = 5 
 
         while True: # the game loop runs while the game part is playing
 
@@ -362,8 +424,9 @@ def game():
                             pygame.mixer.music.play(-1, 0.0)
                     musicPlaying = not musicPlaying
                     if event.key == K_ESCAPE:
-                            terminate()
-
+                        terminate()
+                    
+                        
                     if event.key == K_LEFT or event.key == ord('a'):
                         moveLeft = False
                     if event.key == K_RIGHT or event.key == ord('d'):
@@ -396,9 +459,12 @@ def game():
                 baddieImageUntil500, randomImageUntil1500, randomImageUntil3000, randomImageUntil5000, randomImageUntil7000, randomBaddieImage,
                 goodieImage, baddieRates)
 
+            powerups = addNewPowerUpToList(iteration, powerups, powerUpImage)
+
+            speedups = addNewSpeedUpToList(iteration, speedups, speedUpImage)
 
             # move the player around
-            movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect)  
+            movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect, PLAYERMOVERATE)           
 
             # move the mouse cursor to match the player.
             pygame.mouse.set_pos(playerRect.centerx, playerRect.centery)
@@ -434,6 +500,12 @@ def game():
             for g in goodies:
                 windowSurface.blit(g['surface'], g['rect'])
 
+            for p in powerups:
+                windowSurface.blit(p['surface'], p['rect'])
+
+            for s in speedups:
+                windowSurface.blit(s['surface'], s['rect'])
+
             pygame.display.update()
 
 
@@ -444,20 +516,28 @@ def game():
                 lastScore = score
                 break
 
-
             if playerHasHitGoodie(playerRect, goodies):
                 score = score + 50.0
 
 
+            if playerHasHitPowerUp(playerRect, powerups):
+                score = score + 200.0
+
+
+            if playerHasHitSpeedUp(playerRect, speedups):
+                PLAYERMOVERATE += 1
+                playerRect.move_ip(0, PLAYERMOVERATE)
+
+            iteration += 1
             mainClock.tick(FPS)
 
         # stop the game and show GAME OVER
         game_over(score)
-        
-            
+
+
 def main():
     main_menu()
-    game()
-         
+    game(PLAYERMOVERATE)
+            
 if __name__ == "__main__":
     main()           
