@@ -27,15 +27,15 @@ pip install pygame
 ## Game Play
 
 >You can use the arrows or WASD. </br>
->If you are with normal and not german keyboard, change the 'Y' button to 'Z' in the code in order to be easier to play. </br>
->Use M to toggle music on and off. </br>
->Use ESC button to terminate the game. </br>
+>Use 'M' to toggle music on and off. </br>
+>Use 'ESC' button to terminate the game. </br>
 >You can go through the left wall and appear on the right, and vice-versa. </br>
->There are 2 cheats, X - slows enemies, Y - moves enemies backwards. It costs you score tho. </br>
+>There are 2 cheats, 'X' - slows enemies, 'Y' - moves enemies backwards. It costs you score tho. </br>
+>If you are with a normal and not german-layout keyboard, change the 'Y' button to 'Z' in the code in order to be easier to play. </br>
 
 
 
 ## IF
 
->there is lag when you start the game, increase the *FPS* constant to 60 (now 40) or even more. </br>
->the player is slow, increase the PLAYERMOVERATE (now 5). </br>
+>there is lag when you start the game, increase the **FPS** constant to 60 (now 40) or even more. </br>
+>the player is slow, increase the **PLAYERMOVERATE** constant (now 5). </br>
