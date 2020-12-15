@@ -113,9 +113,9 @@ pygame.mixer.music.load('bird.mp3')
 # images
 baddies_list = ['radichat.png', 'danko.png', 'bocko.png', 'anne.png',
                 'ceci.png', 'regi.png', 'lazo.png', 'aleko.png']
-baddies_list = ['players/'+b for b in baddies_list]
-goodies_list = ['stobko.png', 'shosho.png']
-playerImage = pygame.image.load('player.png')
+baddies_list = ['players/bad/'+b for b in baddies_list]
+goodies_list = ['players/good/stobko.png', 'players/good/shosho.png']
+playerImage = pygame.image.load('players/player.png')
 playerRect = playerImage.get_rect()
 
 
