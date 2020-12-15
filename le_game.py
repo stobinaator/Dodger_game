@@ -24,6 +24,29 @@ baddieRates = {'one' : {'ADDNEWBADDIERATE1':15,'ADDNEWGOODIERATE1':24}, # until 
 
 PLAYERMOVERATE = 5
 
+# set up game, the window, the mouse cursor
+pygame.init()
+mainClock = pygame.time.Clock()
+windowSurface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+pygame.display.set_caption('Dodger')
+pygame.mouse.set_visible(False)
+
+# fonts
+font = pygame.font.SysFont(None, 48)
+
+
+# sounds
+gameOverSound = pygame.mixer.Sound('gameover.wav')
+pygame.mixer.music.load('bird.mp3')
+
+# images
+baddies_list = ['radichat.png', 'danko.png', 'bocko.png', 'anne.png',
+                'ceci.png', 'regi.png', 'lazo.png', 'aleko.png']
+baddies_list = ['players/bad/'+b for b in baddies_list]
+goodies_list = ['players/good/stobko.png', 'players/good/shosho.png']
+playerImage = pygame.image.load('players/player.png')
+playerRect = playerImage.get_rect()
+
 
 def terminate():
     pygame.quit()
@@ -37,7 +60,7 @@ def waitForPlayerToPressKey():
                 terminate()
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    terminate()
+                    main_menu()
                 return
 
 
@@ -94,54 +117,61 @@ def addNewFigure(image):
     return newFigure
 
 
-
-# set up game, the window, the mouse cursor
-pygame.init()
-mainClock = pygame.time.Clock()
-windowSurface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Dodger')
-pygame.mouse.set_visible(False)
-
-# fonts
-font = pygame.font.SysFont(None, 48)
-
-
-# sounds
-gameOverSound = pygame.mixer.Sound('gameover.wav')
-pygame.mixer.music.load('bird.mp3')
-
-# images
-baddies_list = ['radichat.png', 'danko.png', 'bocko.png', 'anne.png',
-                'ceci.png', 'regi.png', 'lazo.png', 'aleko.png']
-baddies_list = ['players/bad/'+b for b in baddies_list]
-goodies_list = ['players/good/stobko.png', 'players/good/shosho.png']
-playerImage = pygame.image.load('players/player.png')
-playerRect = playerImage.get_rect()
+def movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect):
+    # move the player around
+    if moveLeft and playerRect.left > 0:
+            playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
+    if moveRight and playerRect.right < WINDOW_WIDTH:
+            playerRect.move_ip(PLAYERMOVERATE, 0)
+    if moveUp and playerRect.top > 0:
+            playerRect.move_ip(0, -1 * PLAYERMOVERATE)
+    if moveDown and playerRect.bottom < WINDOW_HEIGHT:
+            playerRect.move_ip(0, PLAYERMOVERATE)
 
 
-# start screen
-windowSurface.fill(BACKGROUNDCOLOR)
-drawText('Dodger', font, windowSurface, (WINDOW_WIDTH/3) + 30, (WINDOW_HEIGHT/3))
+def main_menu():
+    # start screen
+    windowSurface.fill(BACKGROUNDCOLOR)
+    drawText('Dodger', font, windowSurface, (WINDOW_WIDTH/3) + 30, (WINDOW_HEIGHT/3))
+
+    pygame.display.update()
+    waitForPlayerToPressKey()
+    main_menu2()
 
 
-pygame.display.update()
-waitForPlayerToPressKey()
-
-windowSurface.fill(BACKGROUNDCOLOR)
-drawText('There are 7 stages',
+def main_menu2():
+    windowSurface.fill(BACKGROUNDCOLOR)
+    drawText('There are 7 stages',
          font, windowSurface, 110, (WINDOW_HEIGHT/3))
-drawText('Use arrows or wasd',
+    drawText('Use arrows or wasd',
          font, windowSurface, 110, (WINDOW_HEIGHT/3) + 50)
-drawText('X to slow down time',
+    drawText('X to slow down time',
          font, windowSurface, 110, (WINDOW_HEIGHT/3) + 100)
-drawText('Y to make them fly backwards',
+    drawText('Y to make them fly backwards',
          font, windowSurface, 110, (WINDOW_HEIGHT/3) + 150)
-drawText('Press a key to start', font, windowSurface, 110,
+    drawText('Press a key to start', font, windowSurface, 110,
                                                      (WINDOW_HEIGHT/3) + 200)
-pygame.display.update()
-waitForPlayerToPressKey()
+    pygame.display.update()
+    waitForPlayerToPressKey()   
 
-def main():
+
+def game_over(score):
+    pygame.mixer.music.stop()
+    gameOverSound.play()
+
+    drawText('GAME OVER', font, windowSurface, (WINDOW_WIDTH /3),
+                                                 (WINDOW_HEIGHT / 3))
+    drawText(f'Score: {round(score,2)}', font, windowSurface,
+                 (WINDOW_WIDTH / 3) + 20, (WINDOW_HEIGHT / 3) + 40)
+    drawText('Press a key to play again.', font, windowSurface,
+                 (WINDOW_WIDTH / 3) - 80, (WINDOW_HEIGHT / 3) + 80)
+    pygame.display.update()
+    waitForPlayerToPressKey()
+
+    gameOverSound.stop()
+
+
+def game():
     lastScore = 0.0
     topScore = 0.0
     while True:
@@ -154,8 +184,6 @@ def main():
         moveLeft = moveRight = moveUp = moveDown = False
         reverseCheat = slowCheat = False
         musicPlaying = True
-
-
 
         baddieAddCounter = 0
         goodieAddCounter = 0
@@ -342,14 +370,7 @@ def main():
 
 
             # move the player around
-            if moveLeft and playerRect.left > 0:
-                playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
-            if moveRight and playerRect.right < WINDOW_WIDTH:
-                playerRect.move_ip(PLAYERMOVERATE, 0)
-            if moveUp and playerRect.top > 0:
-                playerRect.move_ip(0, -1 * PLAYERMOVERATE)
-            if moveDown and playerRect.bottom < WINDOW_HEIGHT:
-                playerRect.move_ip(0, PLAYERMOVERATE)
+            movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect)  
 
             # move the mouse cursor to match the player.
             pygame.mouse.set_pos(playerRect.centerx, playerRect.centery)
@@ -403,20 +424,12 @@ def main():
             mainClock.tick(FPS)
 
         # stop the game and show GAME OVER
-        pygame.mixer.music.stop()
-        gameOverSound.play()
-
-        drawText('GAME OVER', font, windowSurface, (WINDOW_WIDTH /3),
-                                                 (WINDOW_HEIGHT / 3))
-        drawText(f'Score: {round(score,2)}', font, windowSurface,
-                 (WINDOW_WIDTH / 3) + 20, (WINDOW_HEIGHT / 3) + 40)
-        drawText('Press a key to play again.', font, windowSurface,
-                 (WINDOW_WIDTH / 3) - 80, (WINDOW_HEIGHT / 3) + 80)
-        pygame.display.update()
-        waitForPlayerToPressKey()
-
-        gameOverSound.stop()
+        game_over(score)
+        
             
-            
+def main():
+    main_menu()
+    game()
+         
 if __name__ == "__main__":
     main()           
