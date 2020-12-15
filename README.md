@@ -34,4 +34,3 @@ pip install pygame
 >Use 'ESC' button to terminate the game. </br>
 >You can go through the left wall and appear on the right, and vice-versa. </br>
 >There are 2 cheats, 'X' - slows enemies, 'Y' - moves enemies backwards. It costs you score tho. </br>
->If you are with a normal and not german-layout keyboard, change the 'Y' button to 'Z' in the code in order to be easier to play. </br>

@@ -11,7 +11,7 @@ FPS = 60
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
-BADDIEMAXSPEED = 8
+BADDIEMAXSPEED = 6
 POWERUPSIZE = 20
 SPEEDSIZE = 20
 
@@ -393,7 +393,7 @@ def game(PLAYERMOVERATE):
                     terminate()
 
                 if event.type == KEYDOWN:
-                    if event.key == ord('y'):
+                    if event.key == ord('z'):
                         reverseCheat = True
 
                     if event.key == ord('x'):
@@ -413,7 +413,7 @@ def game(PLAYERMOVERATE):
                         moveDown = True
 
                 if event.type == KEYUP:
-                    if event.key == ord('y'):
+                    if event.key == ord('z'):
                         reverseCheat = False
                     if event.key == ord('x'):
                         slowCheat = False
