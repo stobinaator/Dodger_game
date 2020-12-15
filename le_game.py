@@ -142,15 +142,17 @@ def main_menu():
 def main_menu2():
     windowSurface.fill(BACKGROUNDCOLOR)
     drawText('There are 7 stages',
-         font, windowSurface, 110, (WINDOW_HEIGHT/3))
+         font, windowSurface, 110, (WINDOW_HEIGHT/4))
     drawText('Use arrows or wasd',
-         font, windowSurface, 110, (WINDOW_HEIGHT/3) + 50)
+         font, windowSurface, 110, (WINDOW_HEIGHT/4) + 50)
     drawText('X to slow down time',
-         font, windowSurface, 110, (WINDOW_HEIGHT/3) + 100)
+         font, windowSurface, 110, (WINDOW_HEIGHT/4) + 100)
     drawText('Y to make them fly backwards',
-         font, windowSurface, 110, (WINDOW_HEIGHT/3) + 150)
+         font, windowSurface, 110, (WINDOW_HEIGHT/4) + 150)
+    drawText('M to toogle music on/off',
+         font, windowSurface, 110, (WINDOW_HEIGHT/4) + 200)
     drawText('Press a key to start', font, windowSurface, 110,
-                                                     (WINDOW_HEIGHT/3) + 200)
+                                                     (WINDOW_HEIGHT/4) + 250)
     pygame.display.update()
     waitForPlayerToPressKey()   
 
@@ -183,11 +185,11 @@ def game():
         playerRect.topleft = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 50)
         moveLeft = moveRight = moveUp = moveDown = False
         reverseCheat = slowCheat = False
-        musicPlaying = True
+        musicPlaying = False
 
         baddieAddCounter = 0
         goodieAddCounter = 0
-        pygame.mixer.music.play(-1, 0.0)
+        
 
         while True: # the game loop runs while the game part is playing
 

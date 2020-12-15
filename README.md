@@ -16,8 +16,8 @@ BAD GUYS
 
 ## Installation
 
-If you get an error saying that you don't have pygame.</br>
-Just install it with pip.
+If you get an error saying that you don't have pygame installed.</br>
+
 ```bash
 pip install pygame
 ```
@@ -27,7 +27,9 @@ pip install pygame
 ## Game Play
 
 >You can use the arrows or WASD. </br>
->There are 2 cheats, X - slows enemies, Y - moves enemies backwards. It costs you score tho. </br>
 >If you are with non-german keyboard, change the 'Y' button to 'Z' in the code in order to be easier to play. </br>
+>Use M to toggle music on and off. </br>
 >Use ESC button to terminate the game.
+>There are 2 cheats, X - slows enemies, Y - moves enemies backwards. It costs you score tho. </br>
+
 
