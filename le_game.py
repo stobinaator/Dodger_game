@@ -130,7 +130,7 @@ def movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect):
     if moveLeft: 
             playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
             if playerRect.right < 0:
-                playerRect.x = 600
+                playerRect.x = WINDOW_WIDTH
                 playerRect.y = playerRect.y
     if moveRight: 
             playerRect.move_ip(PLAYERMOVERATE, 0)
