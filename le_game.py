@@ -156,6 +156,122 @@ def main_menu2():
     pygame.display.update()
     waitForPlayerToPressKey()   
 
+def addNewBaddiesAndCheckScore(baddieAddCounter, goodieAddCounter, score, baddies, 
+                                goodies,baddieImageUntil500, randomImageUntil1500, randomImageUntil3000, 
+                                randomImageUntil5000, randomImageUntil7000, randomBaddieImage, goodieImage,
+                                baddieRates):
+
+    if score > 10000:
+        if baddieAddCounter >= baddieRates['seven']['ADDNEWBADDIERATE7']:
+            baddieAddCounter = baddieRates['seven']['ADDNEWBADDIERATE7']
+            if baddieAddCounter == baddieRates['seven']['ADDNEWBADDIERATE7']:
+                # print('SEVENTH 5')
+                baddieAddCounter = 0
+                newBaddie = addNewFigure(randomBaddieImage)
+                baddies.append(newBaddie)
+        if goodieAddCounter >= baddieRates['seven']['ADDNEWGOODIERATE7']:
+            goodieAddCounter = baddieRates['seven']['ADDNEWGOODIERATE7']
+            if goodieAddCounter == baddieRates['seven']['ADDNEWGOODIERATE7']:
+                # print('SEVENTH 32')
+                goodieAddCounter = 0
+                newGoodie = addNewFigure(goodieImage)
+                goodies.append(newGoodie)
+
+    elif score > 7000:
+        if baddieAddCounter >= baddieRates['six']['ADDNEWBADDIERATE6']:
+            baddieAddCounter = baddieRates['six']['ADDNEWBADDIERATE6']
+            if baddieAddCounter == baddieRates['six']['ADDNEWBADDIERATE6']:
+                # print('SIXTH 6')
+                baddieAddCounter = 0
+                newBaddie = addNewFigure(randomBaddieImage)
+                baddies.append(newBaddie)
+        if goodieAddCounter >= baddieRates['six']['ADDNEWGOODIERATE6']:
+            goodieAddCounter = baddieRates['six']['ADDNEWGOODIERATE6']
+            if goodieAddCounter == baddieRates['six']['ADDNEWGOODIERATE6']:
+                # print('SIXTH 32')
+                goodieAddCounter = 0
+                newGoodie = addNewFigure(goodieImage)
+                goodies.append(newGoodie)
+
+    elif score > 5000:
+        if baddieAddCounter >= baddieRates['five']['ADDNEWBADDIERATE5']:
+            baddieAddCounter = baddieRates['five']['ADDNEWBADDIERATE5']
+            if baddieAddCounter == baddieRates['five']['ADDNEWBADDIERATE5']:
+                # print('FIFTH 7')
+                baddieAddCounter = 0
+                newBaddie = addNewFigure(randomImageUntil7000)
+                baddies.append(newBaddie)
+        if goodieAddCounter >= baddieRates['five']['ADDNEWGOODIERATE5']:
+            goodieAddCounter = baddieRates['five']['ADDNEWGOODIERATE5']
+            if goodieAddCounter == baddieRates['five']['ADDNEWGOODIERATE5']:
+                # print('FIFTH 32')
+                goodieAddCounter = 0
+                newGoodie = addNewFigure(goodieImage)
+                goodies.append(newGoodie)
+
+    elif score > 3000:
+        if baddieAddCounter >=  baddieRates['four']['ADDNEWBADDIERATE4']:
+            baddieAddCounter = baddieRates['four']['ADDNEWBADDIERATE4']
+            if baddieAddCounter == baddieRates['four']['ADDNEWBADDIERATE4']:
+                # print('FOURTH 9')
+                baddieAddCounter = 0
+                newBaddie = addNewFigure(randomImageUntil5000)
+                baddies.append(newBaddie)
+        if goodieAddCounter >= baddieRates['four']['ADDNEWGOODIERATE4']:
+            goodieAddCounter = baddieRates['four']['ADDNEWGOODIERATE4']
+            if goodieAddCounter == baddieRates['four']['ADDNEWGOODIERATE4']:
+                # print('FOURTH 30')
+                goodieAddCounter = 0
+                newGoodie = addNewFigure(goodieImage)
+                goodies.append(newGoodie)
+
+    elif score > 1500:
+        if baddieAddCounter >= baddieRates['three']['ADDNEWBADDIERATE3']:
+            baddieAddCounter = baddieRates['three']['ADDNEWBADDIERATE3']
+            if baddieAddCounter == baddieRates['three']['ADDNEWBADDIERATE3']:
+                # print('THIRD 11')
+                baddieAddCounter = 0
+                newBaddie = addNewFigure(randomImageUntil3000)
+                baddies.append(newBaddie)
+        if goodieAddCounter >= baddieRates['three']['ADDNEWGOODIERATE3']:
+            goodieAddCounter = baddieRates['three']['ADDNEWGOODIERATE3']
+            if goodieAddCounter == baddieRates['three']['ADDNEWGOODIERATE3']:
+                # print('THIRD 28')
+                goodieAddCounter = 0
+                newGoodie = addNewFigure(goodieImage)
+                goodies.append(newGoodie)
+
+    elif score > 500:
+        if baddieAddCounter >= baddieRates['two']['ADDNEWBADDIERATE2']:
+            baddieAddCounter = baddieRates['two']['ADDNEWBADDIERATE2']
+            if baddieAddCounter == baddieRates['two']['ADDNEWBADDIERATE2']:
+                 # print('SECOND 13')
+                 baddieAddCounter = 0
+                 newBaddie = addNewFigure(randomImageUntil1500)
+                 baddies.append(newBaddie)
+        if goodieAddCounter >= baddieRates['two']['ADDNEWGOODIERATE2']:
+            goodieAddCounter = baddieRates['two']['ADDNEWGOODIERATE2']
+            if goodieAddCounter == baddieRates['two']['ADDNEWGOODIERATE2']:
+                # print('SECOND 26')
+                goodieAddCounter = 0
+                newGoodie = addNewFigure(goodieImage)
+                goodies.append(newGoodie)
+
+    elif score < 500:
+        if baddieAddCounter == baddieRates['one']['ADDNEWBADDIERATE1']:
+            # print('FIRST 15')
+            baddieAddCounter = 0
+            newBaddie = addNewFigure(baddieImageUntil500)
+            baddies.append(newBaddie)
+
+        if goodieAddCounter == baddieRates['one']['ADDNEWGOODIERATE1']:
+            # print('FIRST 24')
+            goodieAddCounter = 0
+            newGoodie = addNewFigure(goodieImage)
+            goodies.append(newGoodie)
+
+    return goodies, baddies, score, goodieAddCounter, baddieAddCounter
+
 
 def game_over(score):
     pygame.mixer.music.stop()
@@ -261,114 +377,9 @@ def game():
                 baddieAddCounter += 1
                 goodieAddCounter += 1
 
-            if score > 10000:
-                if baddieAddCounter >= baddieRates['seven']['ADDNEWBADDIERATE7']:
-                    baddieAddCounter = baddieRates['seven']['ADDNEWBADDIERATE7']
-                    if baddieAddCounter == baddieRates['seven']['ADDNEWBADDIERATE7']:
-                        # print('SEVENTH 5')
-                        baddieAddCounter = 0
-                        newBaddie = addNewFigure(randomBaddieImage)
-                        baddies.append(newBaddie)
-                if goodieAddCounter >= baddieRates['seven']['ADDNEWGOODIERATE7']:
-                    goodieAddCounter = baddieRates['seven']['ADDNEWGOODIERATE7']
-                    if goodieAddCounter == baddieRates['seven']['ADDNEWGOODIERATE7']:
-                        # print('SEVENTH 32')
-                        goodieAddCounter = 0
-                        newGoodie = addNewFigure(goodieImage)
-                        goodies.append(newGoodie)
-
-            elif score > 7000:
-                if baddieAddCounter >= baddieRates['six']['ADDNEWBADDIERATE6']:
-                    baddieAddCounter = baddieRates['six']['ADDNEWBADDIERATE6']
-                    if baddieAddCounter == baddieRates['six']['ADDNEWBADDIERATE6']:
-                        # print('SIXTH 6')
-                        baddieAddCounter = 0
-                        newBaddie = addNewFigure(randomBaddieImage)
-                        baddies.append(newBaddie)
-                if goodieAddCounter >= baddieRates['six']['ADDNEWGOODIERATE6']:
-                    goodieAddCounter = baddieRates['six']['ADDNEWGOODIERATE6']
-                    if goodieAddCounter == baddieRates['six']['ADDNEWGOODIERATE6']:
-                        # print('SIXTH 32')
-                        goodieAddCounter = 0
-                        newGoodie = addNewFigure(goodieImage)
-                        goodies.append(newGoodie)
-
-            elif score > 5000:
-                if baddieAddCounter >= baddieRates['five']['ADDNEWBADDIERATE5']:
-                    baddieAddCounter = baddieRates['five']['ADDNEWBADDIERATE5']
-                    if baddieAddCounter == baddieRates['five']['ADDNEWBADDIERATE5']:
-                        # print('FIFTH 7')
-                        baddieAddCounter = 0
-                        newBaddie = addNewFigure(randomImageUntil7000)
-                        baddies.append(newBaddie)
-                if goodieAddCounter >= baddieRates['five']['ADDNEWGOODIERATE5']:
-                    goodieAddCounter = baddieRates['five']['ADDNEWGOODIERATE5']
-                    if goodieAddCounter == baddieRates['five']['ADDNEWGOODIERATE5']:
-                        # print('FIFTH 32')
-                        goodieAddCounter = 0
-                        newGoodie = addNewFigure(goodieImage)
-                        goodies.append(newGoodie)
-
-            elif score > 3000:
-                if baddieAddCounter >=  baddieRates['four']['ADDNEWBADDIERATE4']:
-                    baddieAddCounter = baddieRates['four']['ADDNEWBADDIERATE4']
-                    if baddieAddCounter == baddieRates['four']['ADDNEWBADDIERATE4']:
-                        # print('FOURTH 9')
-                        baddieAddCounter = 0
-                        newBaddie = addNewFigure(randomImageUntil5000)
-                        baddies.append(newBaddie)
-                if goodieAddCounter >= baddieRates['four']['ADDNEWGOODIERATE4']:
-                    goodieAddCounter = baddieRates['four']['ADDNEWGOODIERATE4']
-                    if goodieAddCounter == baddieRates['four']['ADDNEWGOODIERATE4']:
-                        # print('FOURTH 30')
-                        goodieAddCounter = 0
-                        newGoodie = addNewFigure(goodieImage)
-                        goodies.append(newGoodie)
-
-            elif score > 1500:
-                if baddieAddCounter >= baddieRates['three']['ADDNEWBADDIERATE3']:
-                    baddieAddCounter = baddieRates['three']['ADDNEWBADDIERATE3']
-                    if baddieAddCounter == baddieRates['three']['ADDNEWBADDIERATE3']:
-                        # print('THIRD 11')
-                        baddieAddCounter = 0
-                        newBaddie = addNewFigure(randomImageUntil3000)
-                        baddies.append(newBaddie)
-                if goodieAddCounter >= baddieRates['three']['ADDNEWGOODIERATE3']:
-                    goodieAddCounter = baddieRates['three']['ADDNEWGOODIERATE3']
-                    if goodieAddCounter == baddieRates['three']['ADDNEWGOODIERATE3']:
-                        # print('THIRD 28')
-                        goodieAddCounter = 0
-                        newGoodie = addNewFigure(goodieImage)
-                        goodies.append(newGoodie)
-
-            elif score > 500:
-                if baddieAddCounter >= baddieRates['two']['ADDNEWBADDIERATE2']:
-                    baddieAddCounter = baddieRates['two']['ADDNEWBADDIERATE2']
-                    if baddieAddCounter == baddieRates['two']['ADDNEWBADDIERATE2']:
-                         # print('SECOND 13')
-                         baddieAddCounter = 0
-                         newBaddie = addNewFigure(randomImageUntil1500)
-                         baddies.append(newBaddie)
-                if goodieAddCounter >= baddieRates['two']['ADDNEWGOODIERATE2']:
-                    goodieAddCounter = baddieRates['two']['ADDNEWGOODIERATE2']
-                    if goodieAddCounter == baddieRates['two']['ADDNEWGOODIERATE2']:
-                        # print('SECOND 26')
-                        goodieAddCounter = 0
-                        newGoodie = addNewFigure(goodieImage)
-                        goodies.append(newGoodie)
-
-            elif score < 500:
-                if baddieAddCounter == baddieRates['one']['ADDNEWBADDIERATE1']:
-                    # print('FIRST 15')
-                    baddieAddCounter = 0
-                    newBaddie = addNewFigure(baddieImageUntil500)
-                    baddies.append(newBaddie)
-
-                if goodieAddCounter == baddieRates['one']['ADDNEWGOODIERATE1']:
-                    # print('FIRST 24')
-                    goodieAddCounter = 0
-                    newGoodie = addNewFigure(goodieImage)
-                    goodies.append(newGoodie)
+            goodies, baddies, score, goodieAddCounter, baddieAddCounter = addNewBaddiesAndCheckScore(baddieAddCounter, goodieAddCounter, score, baddies, goodies,
+                baddieImageUntil500, randomImageUntil1500, randomImageUntil3000, randomImageUntil5000, randomImageUntil7000, randomBaddieImage,
+                goodieImage, baddieRates)
 
 
             # move the player around
