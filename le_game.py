@@ -31,7 +31,7 @@ PLAYERMOVERATE = 5
 pygame.init()
 mainClock = pygame.time.Clock()
 windowSurface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-pygame.display.set_caption('Dodger')
+pygame.display.set_caption('Antisocial')
 pygame.mouse.set_visible(False)
 
 # fonts
@@ -193,7 +193,7 @@ def movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect, PLAYERMO
 def main_menu():
     # start screen
     windowSurface.fill(BACKGROUNDCOLOR)
-    drawText('Dodger', font, windowSurface, (WINDOW_WIDTH/3) + 30, (WINDOW_HEIGHT/3))
+    drawText('∆ Antisocial ∆', font, windowSurface, (WINDOW_WIDTH/3) , (WINDOW_HEIGHT/3))
 
     pygame.display.update()
     waitForPlayerToPressKey2()
@@ -441,7 +441,7 @@ def game(PLAYERMOVERATE):
                     playerRect.move_ip(event.pos[0] - playerRect.centerx, event.pos[1] - playerRect.centery)
 
 
-            baddieImageUntil500 = pygame.image.load(PLAYERS_DIR+'bad/baddie.png')
+            baddieImageUntil500 = pygame.image.load(PLAYERS_DIR + 'bad/baddie.png')
             randomImageUntil1500 = pygame.image.load(random.choice(baddies_list[:2]))
             randomImageUntil3000 = pygame.image.load(random.choice(baddies_list[2:4]))
             randomImageUntil5000 = pygame.image.load(random.choice(baddies_list[4:6]))
