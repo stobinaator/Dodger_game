@@ -2,11 +2,15 @@
 
 A game where you try to NOT get hit by the bad guys.
 
+MAIN CHARACTER
+>![](players/player.png)
+
 GOOD GUYS
 >![](players/good/stobko.png) ![](players/good/shosho.png)  
 
 BAD GUYS
->![](players/bad/radichat.png) ![](players/bad/danko.png) ![](players/bad/regi.png) ![](players/bad/bocko.png)![](players/bad/anne.png) 
+>![](players/bad/baddie.png)
+![](players/bad/radichat.png) ![](players/bad/danko.png) ![](players/bad/regi.png) ![](players/bad/bocko.png)![](players/bad/anne.png) 
 ![](players/bad/ceci.png) ![](players/bad/lazo.png) ![](players/bad/aleko.png)
 
 
