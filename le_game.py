@@ -1,4 +1,4 @@
-import pygame, random, sys
+import pygame, random, sys, os
 from pygame.locals import *
 
 
@@ -40,11 +40,19 @@ gameOverSound = pygame.mixer.Sound('gameover.wav')
 pygame.mixer.music.load('bird.mp3')
 
 # images
-baddies_list = ['radichat.png', 'danko.png', 'bocko.png', 'anne.png',
-                'ceci.png', 'regi.png', 'lazo.png', 'aleko.png']
-baddies_list = ['players/bad/'+b for b in baddies_list]
-goodies_list = ['players/good/stobko.png', 'players/good/shosho.png']
-playerImage = pygame.image.load('players/player.png')
+PLAYERS_DIR = "players/"
+baddies_list = []
+goodies_list = []
+for dirpath, dirnames, files in os.walk(os.path.abspath(PLAYERS_DIR)):
+    if dirpath.endswith('bad'):
+        for file in files:
+            baddies_list.append(PLAYERS_DIR + 'bad/' + file)
+    if dirpath.endswith('good'):
+        for file in files:
+            goodies_list.append(PLAYERS_DIR + 'good/' + file)
+
+
+playerImage = pygame.image.load(PLAYERS_DIR +'player.png')
 playerRect = playerImage.get_rect()
 
 
@@ -100,9 +108,9 @@ def moveFigureDown(whoever, score, reverseCheat, slowCheat):
 
 
 def delFigurePastBottom(whoever):
-    for b in whoever[:]:
-        if b['rect'].top > WINDOW_HEIGHT:
-            whoever.remove(b)
+    for w in whoever[:]:
+        if w['rect'].top > WINDOW_HEIGHT:
+            whoever.remove(w)
 
 
 def addNewFigure(image):   
@@ -363,7 +371,7 @@ def game():
                     playerRect.move_ip(event.pos[0] - playerRect.centerx, event.pos[1] - playerRect.centery)
 
 
-            baddieImageUntil500 = pygame.image.load('players/bad/baddie.png')
+            baddieImageUntil500 = pygame.image.load(PLAYERS_DIR+'bad/baddie.png')
             randomImageUntil1500 = pygame.image.load(random.choice(baddies_list[:2]))
             randomImageUntil3000 = pygame.image.load(random.choice(baddies_list[2:4]))
             randomImageUntil5000 = pygame.image.load(random.choice(baddies_list[4:6]))
