@@ -27,6 +27,7 @@ pip install pygame
 ## Game Play
 
 >You can use the arrows or WASD. </br>
+>You can go through the left wall and appear on the right, and vice versa. </br>
 >If you are with non-german keyboard, change the 'Y' button to 'Z' in the code in order to be easier to play. </br>
 >Use M to toggle music on and off. </br>
 >Use ESC button to terminate the game. </br>

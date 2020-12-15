@@ -127,14 +127,21 @@ def addNewFigure(image):
 
 def movePlayerAround(moveLeft, moveRight, moveUp, moveDown, playerRect):
     # move the player around
-    if moveLeft and playerRect.left > 0:
+    if moveLeft: 
             playerRect.move_ip(-1 * PLAYERMOVERATE, 0)
-    if moveRight and playerRect.right < WINDOW_WIDTH:
+            if playerRect.right < 0:
+                playerRect.x = 600
+                playerRect.y = playerRect.y
+    if moveRight: 
             playerRect.move_ip(PLAYERMOVERATE, 0)
+            if playerRect.left > WINDOW_WIDTH:
+                playerRect.x = 0
+                playerRect.y = playerRect.y
     if moveUp and playerRect.top > 0:
             playerRect.move_ip(0, -1 * PLAYERMOVERATE)
     if moveDown and playerRect.bottom < WINDOW_HEIGHT:
             playerRect.move_ip(0, PLAYERMOVERATE)
+
 
 
 def main_menu():
