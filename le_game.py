@@ -217,7 +217,7 @@ def main():
                     playerRect.move_ip(event.pos[0] - playerRect.centerx, event.pos[1] - playerRect.centery)
 
 
-            baddieImageUntil500 = pygame.image.load('baddie.png')
+            baddieImageUntil500 = pygame.image.load('players/bad/baddie.png')
             randomImageUntil1500 = pygame.image.load(random.choice(baddies_list[:2]))
             randomImageUntil3000 = pygame.image.load(random.choice(baddies_list[2:4]))
             randomImageUntil5000 = pygame.image.load(random.choice(baddies_list[4:6]))
