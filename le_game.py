@@ -14,7 +14,8 @@ BADDIEMINSPEED = 1
 BADDIEMAXSPEED = 6
 POWERUPSIZE = 20
 SPEEDSIZE = 20
-
+DIRECTORY = os.path.dirname(__file__)
+HS_FILE = 'highscore.txt'
 
 baddieRates = {'one' : {'ADDNEWBADDIERATE1':15,'ADDNEWGOODIERATE1':24}, # until 500
                'two' : {'ADDNEWBADDIERATE2':13,'ADDNEWGOODIERATE2':26}, # above 500
@@ -49,17 +50,30 @@ goodies_list = []
 for dirpath, dirnames, files in os.walk(os.path.abspath(PLAYERS_DIR)):
     if dirpath.endswith('bad'):
         for file in files:
+            if file.startswith('baddie'):
+                continue
             baddies_list.append(PLAYERS_DIR + 'bad/' + file)
     if dirpath.endswith('good'):
         for file in files:
             goodies_list.append(PLAYERS_DIR + 'good/' + file)
 
 
-playerImage = pygame.image.load(PLAYERS_DIR +'player.png')
+playerImage = pygame.image.load(PLAYERS_DIR +'player.png').convert()
 playerRect = playerImage.get_rect()
 
-powerUpImage = pygame.image.load(PLAYERS_DIR + 'powerups/' + 'red.png')
-speedUpImage = pygame.image.load(PLAYERS_DIR + 'powerups/' + 'flash.png')
+powerUpImage = pygame.image.load(PLAYERS_DIR + 'powerups/' + 'red.png').convert_alpha()
+speedUpImage = pygame.image.load(PLAYERS_DIR + 'powerups/' + 'flash.png').convert_alpha()
+
+
+def load_data(DIRECTORY, HS_FILE):
+    #directory = os.path.dirname(__file__)
+    with open(os.path.join(DIRECTORY, HS_FILE), 'r') as f:
+        try:
+            highscore = float(f.read())
+        except:
+            highscore = 0
+    return highscore
+
 
 def terminate():
     pygame.quit()
@@ -194,10 +208,12 @@ def main_menu():
     # start screen
     windowSurface.fill(BACKGROUNDCOLOR)
     drawText('∆ Antisocial ∆', font, windowSurface, (WINDOW_WIDTH/3) , (WINDOW_HEIGHT/3))
-
+    hs = load_data(DIRECTORY, HS_FILE)
+    drawText(f'HIGH SCORE: {hs}', font, windowSurface, (WINDOW_WIDTH/3) + 10, (WINDOW_HEIGHT/3) + 100)
     pygame.display.update()
     waitForPlayerToPressKey2()
     main_menu2()
+    return hs
 
 
 def main_menu2():
@@ -237,10 +253,7 @@ def addNewBaddiesAndGoodies(baddieAddCounter, goodieAddCounter, baddieRates, bad
 
 
 
-def checkScore(baddieAddCounter, goodieAddCounter, score, baddies, 
-                                goodies,baddieImageUntil500, randomImageUntil1500, randomImageUntil3000, 
-                                randomImageUntil5000, randomImageUntil7000, randomBaddieImage, goodieImage,
-                                baddieRates):
+def checkScore(baddieAddCounter, goodieAddCounter, score, baddies, goodies, baddieImage, randomBaddieImage, goodieImage, baddieRates):
 
     if score > 10000:
         return addNewBaddiesAndGoodies(baddieAddCounter, goodieAddCounter, baddieRates, baddies,
@@ -252,25 +265,25 @@ def checkScore(baddieAddCounter, goodieAddCounter, score, baddies,
 
     elif score > 5000:
         return addNewBaddiesAndGoodies(baddieAddCounter, goodieAddCounter, baddieRates, baddies,
-                                        goodies, 'five', '5', randomImageUntil7000, goodieImage, score) 
+                                        goodies, 'five', '5', randomBaddieImage, goodieImage, score) 
 
     elif score > 3000:
         return addNewBaddiesAndGoodies(baddieAddCounter, goodieAddCounter, baddieRates, baddies,
-                                        goodies, 'four', '4', randomImageUntil5000, goodieImage, score)
+                                        goodies, 'four', '4', randomBaddieImage, goodieImage, score)
 
     elif score > 1500:
         return addNewBaddiesAndGoodies(baddieAddCounter, goodieAddCounter, baddieRates, baddies,
-                                        goodies, 'three', '3', randomImageUntil3000, goodieImage, score)
+                                        goodies, 'three', '3', randomBaddieImage, goodieImage, score)
         
     elif score > 500:
         return addNewBaddiesAndGoodies(baddieAddCounter, goodieAddCounter, baddieRates, baddies,
-                                        goodies, 'two', '2',  randomImageUntil1500, goodieImage, score)
+                                        goodies, 'two', '2',  randomBaddieImage, goodieImage, score)
         
     elif score < 500:
         if baddieAddCounter == baddieRates['one']['ADDNEWBADDIERATE1']:
             # print('FIRST 15')
             baddieAddCounter = 0
-            newBaddie = addNewFigure(baddieImageUntil500)
+            newBaddie = addNewFigure(baddieImage)
             baddies.append(newBaddie)
 
         if goodieAddCounter == baddieRates['one']['ADDNEWGOODIERATE1']:
@@ -296,7 +309,7 @@ def addNewPowerUpToList(iteration, powerups, powerupImage):
     return powerups
 
 
-def game_over(score):
+def game_over(score, lastScore, topScore, hs):
     pygame.mixer.music.stop()
     gameOverSound.play()
 
@@ -306,13 +319,22 @@ def game_over(score):
                  (WINDOW_WIDTH / 3) + 20, (WINDOW_HEIGHT / 3) + 40)
     drawText('Press a key to play again.', font, windowSurface,
                  (WINDOW_WIDTH / 3) - 80, (WINDOW_HEIGHT / 3) + 80)
+    
+    if score > hs:
+        topScore = score
+        drawText('NEW HIGH SCORE!', font, windowSurface,
+                  (WINDOW_WIDTH / 3) - 80, (WINDOW_HEIGHT / 3) + 120)
+        with open(os.path.join(DIRECTORY, HS_FILE), 'w') as f:
+            f.write(str(score) + '\n')
+    lastScore = score
     pygame.display.update()
     waitForPlayerToPressKey()
 
     gameOverSound.stop()
 
+    return score, lastScore, topScore
 
-def game(PLAYERMOVERATE):
+def game(PLAYERMOVERATE, hs):
     lastScore = 0.0
     topScore = 0.0
     while True:
@@ -342,7 +364,7 @@ def game(PLAYERMOVERATE):
                     terminate()
 
                 if event.type == KEYDOWN:
-                    if event.key == ord('z'):
+                    if event.key == ord('y'):
                         reverseCheat = True
 
                     if event.key == ord('x'):
@@ -362,7 +384,7 @@ def game(PLAYERMOVERATE):
                         moveDown = True
 
                 if event.type == KEYUP:
-                    if event.key == ord('z'):
+                    if event.key == ord('y'):
                         reverseCheat = False
                     if event.key == ord('x'):
                         slowCheat = False
@@ -390,13 +412,9 @@ def game(PLAYERMOVERATE):
                     playerRect.move_ip(event.pos[0] - playerRect.centerx, event.pos[1] - playerRect.centery)
 
 
-            baddieImageUntil500 = pygame.image.load(PLAYERS_DIR + 'bad/baddie.png')
-            randomImageUntil1500 = pygame.image.load(random.choice(baddies_list[:2]))
-            randomImageUntil3000 = pygame.image.load(random.choice(baddies_list[2:4]))
-            randomImageUntil5000 = pygame.image.load(random.choice(baddies_list[4:6]))
-            randomImageUntil7000 = pygame.image.load(random.choice(baddies_list[6:]))
-            randomBaddieImage = pygame.image.load(random.choice(baddies_list))
-            goodieImage = pygame.image.load(random.choice(goodies_list))
+            baddieImage = pygame.image.load(PLAYERS_DIR + 'bad/baddie.png').convert()
+            randomBaddieImage = pygame.image.load(random.choice(baddies_list)).convert()
+            goodieImage = pygame.image.load(random.choice(goodies_list)).convert()
 
 
             # add new baddies
@@ -405,8 +423,7 @@ def game(PLAYERMOVERATE):
                 goodieAddCounter += 1
 
             goodies, baddies, goodieAddCounter, baddieAddCounter, score = checkScore(baddieAddCounter, goodieAddCounter, score, baddies, goodies,
-                baddieImageUntil500, randomImageUntil1500, randomImageUntil3000, randomImageUntil5000, randomImageUntil7000, randomBaddieImage,
-                goodieImage, baddieRates)
+                baddieImage, randomBaddieImage, goodieImage, baddieRates)
 
             powerups = addNewPowerUpToList(iteration, powerups, powerUpImage)
 
@@ -462,8 +479,8 @@ def game(PLAYERMOVERATE):
             if playerHasHitBaddie(playerRect, baddies):
                 if score > topScore:
                     topScore = score
-                lastScore = score
                 break
+                
 
             if playerHasHitGoodie(playerRect, goodies):
                 score = score + 50.0
@@ -481,12 +498,12 @@ def game(PLAYERMOVERATE):
             mainClock.tick(FPS)
 
         # stop the game and show GAME OVER
-        game_over(score)
+        score, lastScore, topScore = game_over(score, lastScore, topScore, hs)
 
 
 def main():
-    main_menu()
-    game(PLAYERMOVERATE)
+    hs = main_menu()
+    game(PLAYERMOVERATE, hs)
             
 if __name__ == "__main__":
-    main()           
+    main() 
