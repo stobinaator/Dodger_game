@@ -11,22 +11,22 @@ FPS = 60
 BADDIEMINSIZE = 10
 BADDIEMAXSIZE = 40
 BADDIEMINSPEED = 1
-BADDIEMAXSPEED = 6
+BADDIEMAXSPEED = 4
 POWERUPSIZE = 20
 SPEEDSIZE = 20
 DIRECTORY = os.path.dirname(__file__)
 HS_FILE = 'highscore.txt'
 
-baddieRates = {'one' : {'ADDNEWBADDIERATE1':15,'ADDNEWGOODIERATE1':24}, # until 500
-               'two' : {'ADDNEWBADDIERATE2':13,'ADDNEWGOODIERATE2':26}, # above 500
-               'three' : {'ADDNEWBADDIERATE3':11,'ADDNEWGOODIERATE3':28}, # above 1500
-               'four' : {'ADDNEWBADDIERATE4':9,'ADDNEWGOODIERATE4':30}, # above 3000
-               'five' : {'ADDNEWBADDIERATE5':7,'ADDNEWGOODIERATE5':32}, # above 5000
-               'six' : {'ADDNEWBADDIERATE6':5,'ADDNEWGOODIERATE6':32}, # above 7000
-               'seven' : {'ADDNEWBADDIERATE7':6,'ADDNEWGOODIERATE7':32}, # above 10k
+baddieRates = {'one' : {'ADDNEWBADDIERATE1':25,'ADDNEWGOODIERATE1':25}, # until 500
+               'two' : {'ADDNEWBADDIERATE2':20,'ADDNEWGOODIERATE2':28}, # above 500
+               'three' : {'ADDNEWBADDIERATE3':15,'ADDNEWGOODIERATE3':31}, # above 1500
+               'four' : {'ADDNEWBADDIERATE4':13,'ADDNEWGOODIERATE4':33}, # above 3000
+               'five' : {'ADDNEWBADDIERATE5':11,'ADDNEWGOODIERATE5':35}, # above 5000
+               'six' : {'ADDNEWBADDIERATE6':9,'ADDNEWGOODIERATE6':38}, # above 7000
+               'seven' : {'ADDNEWBADDIERATE7':6,'ADDNEWGOODIERATE7':41}, # above 10k
                }
 
-PLAYERMOVERATE = 5
+PLAYERMOVERATE = 3
 
 # set up game, the window, the mouse cursor
 pygame.init()
@@ -354,7 +354,7 @@ def game(PLAYERMOVERATE, hs):
 
         baddieAddCounter = 0
         goodieAddCounter = 0 
-        PLAYERMOVERATE = 5 
+        PLAYERMOVERATE = 3 
 
         while True: # the game loop runs while the game part is playing
 
