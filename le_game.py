@@ -317,7 +317,6 @@ def game_over(score, lastScore, topScore, hs):
     drawText('Press a key to play again.', font, windowSurface,
                  (WINDOW_WIDTH / 3) - 80, (WINDOW_HEIGHT / 3) + 120)
     
-    print(f'score: {score}, topScore: {topScore}, hs: {hs}')
 
     if score > topScore:
         topScore = score
