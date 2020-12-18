@@ -294,13 +294,13 @@ def checkScore(baddieAddCounter, goodieAddCounter, score, baddies, goodies, badd
 
 
 def addNewSpeedUpToList(iteration, speedups, speedUpImage):
-    if iteration % 600 == 0:
+    if iteration % 800 == 0:
         newSpeedUp = addNewPowerUp(speedUpImage)
         speedups.append(newSpeedUp)
     return speedups
 
 def addNewPowerUpToList(iteration, powerups, powerupImage):
-    if iteration % 300 == 0:
+    if iteration % 450 == 0:
         newPowerUp = addNewPowerUp(powerUpImage)
         powerups.append(newPowerUp)
 
@@ -454,7 +454,7 @@ def game(PLAYERMOVERATE, hs):
             # draw scores
             drawText('Score: %s' % (round(score,2)), font, windowSurface, 10, 0)
             drawText('Last: %s' % (round(lastScore, 2)), font, windowSurface, 10, 40)
-            drawText('Top Score: %s' % (round(topScore, 2)), font, windowSurface, 10, 80)
+            drawText('Top: %s' % (round(topScore, 2)), font, windowSurface, 10, 80)
 
             # draw player's rect
             windowSurface.blit(playerImage, playerRect)
